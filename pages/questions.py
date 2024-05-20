@@ -17,8 +17,9 @@ if 'res' not in st.session_state:
     st.session_state['res'] = []
 
 if (st.session_state['current_q'] % 5) == 0 and st.session_state['stage'] == 0:
-    save_ans_to_file(st.session_state['res'], FILENAME)
-    upload_file_to_dropbox(FILENAME, '/results/' + FILENAME)
+    local_file = st.session_state['id'] + '.csv'
+    save_ans_to_file(st.session_state['res'], local_file)
+    upload_file_to_dropbox(local_file, '/results/' + local_file)
     update_current_q()
     st.session_state['res'] = []
 

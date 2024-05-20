@@ -8,4 +8,5 @@ participant_id = st.text_input("**Participant ID:**")
 
 if st.button("Submit"):
     if len(participant_id) > 0:
+        st.session_state['id'] = participant_id
         st.switch_page("pages/questions.py")
