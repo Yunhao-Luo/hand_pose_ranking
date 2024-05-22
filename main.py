@@ -5,7 +5,20 @@ hide_sidebar()
 
 st.title("Welcome to the uesr study! Please enter your participant ID")
 participant_id = st.text_input("**Participant ID:**")
+submit_css = """
+    <style>
+    /* Styles for the button */
+    .stButton>button {
+        padding: 5rem 10rem;
+    }
 
+    /* Styles for the button text */
+    .stButton>button span {
+        font-size: 24px; /* Change the font size here */
+    }
+    </style>
+    """
+st.write(submit_css, unsafe_allow_html=True)
 if st.button("Submit"):
     if len(participant_id) > 0:
         st.session_state['id'] = participant_id

@@ -32,16 +32,9 @@ def get_current_q():
 
 def generate_pairs(items):
     pairs = []
-    added = set()
     for i in range(1, items+1):
         for j in range(i+1, items+1):
-            a = str(i) + '_' + str(j)
-            b = str(j) + '_' + str(i)
-            if a in added or b in added:
-                continue
-            else:
-                pairs.append([get_name(i), get_name(j)])
-                added.add(str(i) + '_' + str(j))
+            pairs.append([get_name(i), get_name(j)])
 
     for i in pairs:
         random.shuffle(i)
@@ -99,6 +92,8 @@ def download_file_from_dropbox(dropbox_path, local_path):
 
 
 if __name__ == '__main__':
-    upload_file_to_dropbox('./current_q.csv', '/info/current_q.csv')
+    # upload_file_to_dropbox('./current_q.csv', '/info/current_q.csv')
     # download_file_from_dropbox('/info/current_q.csv', './current_q.csv')
-    pass
+    # pass
+    pairs = generate_pairs(40)
+    print(len(pairs))
