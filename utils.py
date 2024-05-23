@@ -90,10 +90,32 @@ def download_file_from_dropbox(dropbox_path, local_path):
     except Exception as e:
         print("Error during file download:", e)
 
+def get_user_id():
+    download_file_from_dropbox('/info/ids.csv', './ids.csv')
+    existing_ids = set()
+    
+    with open('./ids.csv', mode='r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row:
+                existing_ids.update(map(int, row))
+
+    new_id = random.randint(1000, 9999)
+    while new_id in existing_ids:
+        new_id = random.randint(1000, 9999)
+
+    with open('./ids.csv', mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([new_id])
+    
+    upload_file_to_dropbox(file_path='./ids.csv', dropbox_path='/info/ids.csv')
+    return new_id
+
 
 if __name__ == '__main__':
     # upload_file_to_dropbox('./current_q.csv', '/info/current_q.csv')
     # download_file_from_dropbox('/info/current_q.csv', './current_q.csv')
     # pass
-    pairs = generate_pairs(40)
-    print(len(pairs))
+    # pairs = generate_pairs(40)
+    # print(len(pairs))
+    print(get_user_id())

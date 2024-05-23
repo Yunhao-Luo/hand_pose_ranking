@@ -4,7 +4,8 @@ from utils import *
 hide_sidebar()
 
 st.title("Welcome to the uesr study! Please enter your participant ID")
-participant_id = st.text_input("**Participant ID:**")
+id = get_user_id()
+participant_id = st.text_input("**Participant ID:**", value=id)
 submit_css = """
     <style>
     /* Styles for the button */
