@@ -39,21 +39,25 @@ elif st.session_state['stage'] == 1:
 elif st.session_state['stage'] == 2:
     html_reminder = """
     <div style='background-color: #ff6347; color: #f0f2f6; padding: 10px;'>
-        <strong>Please select only one option.</strong> If both are selected, No.1 will be recorded.
+        <strong>Please select only one option.</strong> If both are selected, the last selected option will be recorded.
     </div>
     """
     st.markdown(html_reminder, unsafe_allow_html=True)
     st.write("### Which pose requires more effort?")
     col1, col2 = st.columns(2)
-    col1.write('No. 1')
     col1.image(img1)
-    col2.write('No. 2')
     col2.image(img2)
 
 
 if st.session_state['stage'] >= 2:
     st.write()
     # select = st.radio(label=r"$\textsf{\Large Which hand pose requires more effort?:}$", options=["No.1", "No.2"], index=None)
+    if 'res' not in st.session_state:
+        st.session_state['res'] = [None]
+    if 'first_state' not in st.session_state:
+        st.session_state['first_state'] = False
+    if 'second_state' not in st.session_state:
+        st.session_state['second_state'] = False
     check_css = """
     <style>
     [data-baseweb="checkbox"] [data-testid="stWidgetLabel"] p {
@@ -80,9 +84,6 @@ if st.session_state['stage'] >= 2:
     }
     </style>
     """
-    st.write(check_css, unsafe_allow_html=True)
-    First = col1.checkbox("First Pose")
-    Second = col2.checkbox("Second Pose")
     confirm_css = """
     <style>
     /* Styles for the button */
@@ -96,18 +97,36 @@ if st.session_state['stage'] >= 2:
     }
     </style>
     """
+    # Checkbox
+    st.write(check_css, unsafe_allow_html=True)
+    First = col1.checkbox("No.1")
+    Second = col2.checkbox("No.2")
+    if First != st.session_state['first_state']:
+        st.session_state['first_state'] = First
+        st.session_state['res'].append('No.1')
+    if Second != st.session_state['second_state']:
+        st.session_state['second_state'] = Second
+        st.session_state['res'].append('No.2')
+
+    # Confirm
     st.write(confirm_css, unsafe_allow_html=True)
     if st.button('Confirm'):
         if First == False and Second == False:
             st.write(":red[Please make a selection.]")
         else:
             ans = ""
-            if First: ans = "No.1"
-            else: ans = "No.2"
+            if First and Second:
+                ans = st.session_state['res'][-1]
+            else:
+                if First: ans = 'No.1'
+                elif Second: ans = 'No.2'
             current_q = str(st.session_state['current_q'] + 1)
             st.session_state['res'].append([current_q + '_' + str(img[0]) + str(img[1]), ans])
             st.session_state['stage'] = 0
             st.session_state['current_q'] += 1
+            st.session_state['first_state'] = False
+            st.session_state['second_state'] = False
+            print(f"ans is {ans}")
             st.rerun()
 else:
     next_css = """
