@@ -110,7 +110,7 @@ if st.session_state['stage'] >= 2:
 
     # Confirm
     st.write(confirm_css, unsafe_allow_html=True)
-    if st.button('Confirm'):
+    if st.button(label=r"$\textsf{\huge Confirm}$"):
         if First == False and Second == False:
             st.write(":red[Please make a selection.]")
         else:
@@ -126,7 +126,6 @@ if st.session_state['stage'] >= 2:
             st.session_state['current_q'] += 1
             st.session_state['first_state'] = False
             st.session_state['second_state'] = False
-            print(f"ans is {ans}")
             st.rerun()
 else:
     next_css = """
@@ -143,6 +142,6 @@ else:
     </style>
     """
     st.write(next_css, unsafe_allow_html=True)
-    if st.button('Next'):
+    if st.button(label=r"$\textsf{\huge Next}$"):
         st.session_state['stage'] += 1
         st.rerun()

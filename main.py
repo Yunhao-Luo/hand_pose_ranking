@@ -20,7 +20,7 @@ submit_css = """
     </style>
     """
 st.write(submit_css, unsafe_allow_html=True)
-if st.button("Submit"):
+if st.button(label=r"$\textsf{\huge Submit}$"):
     if len(participant_id) > 0:
         st.session_state['id'] = participant_id
         st.switch_page("pages/questions.py")
