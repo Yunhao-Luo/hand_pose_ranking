@@ -15,6 +15,8 @@ if 'stage' not in st.session_state:
     st.session_state['stage'] = 0
 if 'res' not in st.session_state:
     st.session_state['res'] = []
+if 'res_temp' not in st.session_state:
+    st.session_state['res_temp'] = []
 
 if (st.session_state['current_q'] % 5) == 0 and st.session_state['stage'] == 0:
     local_file = st.session_state['id'] + '.csv'
@@ -103,10 +105,10 @@ if st.session_state['stage'] >= 2:
     Second = col2.checkbox("No.2")
     if First != st.session_state['first_state']:
         st.session_state['first_state'] = First
-        st.session_state['res'].append('No.1')
+        st.session_state['res_temp'].append('No.1')
     if Second != st.session_state['second_state']:
         st.session_state['second_state'] = Second
-        st.session_state['res'].append('No.2')
+        st.session_state['res_temp'].append('No.2')
 
     # Confirm
     st.write(confirm_css, unsafe_allow_html=True)
@@ -116,7 +118,7 @@ if st.session_state['stage'] >= 2:
         else:
             ans = ""
             if First and Second:
-                ans = st.session_state['res'][-1]
+                ans = st.session_state['res_temp'][-1]
             else:
                 if First: ans = 'No.1'
                 elif Second: ans = 'No.2'
